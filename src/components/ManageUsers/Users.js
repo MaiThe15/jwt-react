@@ -9,13 +9,15 @@ import ModalUser from "./ModalUser";
 const Users = (pops) => {
     const [listUsers, setListUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentLimit, setCurrentLimit] = useState(2);
+    const [currentLimit, setCurrentLimit] = useState(3);
     const [totalPages, setTotalPages] = useState(0);
 
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
     const [dataModal, setDataModal] = useState({});
 
     const [isShowModalUser, setIsShowModalUser] = useState(false);
+    const [actionModalUser, setActionModalUser] = useState("");
+    const [dataModalUser, setDataModalUser] = useState({});
     
     useEffect(() => {
         fetchUsers();
@@ -57,8 +59,16 @@ const Users = (pops) => {
         }
     }
 
-    const onHideModalUser = () => {
+    const onHideModalUser = async () => {
         setIsShowModalUser(false);
+        setDataModalUser({});
+        await fetchUsers()
+    }
+
+    const handleEditUser = (user) => {
+        setActionModalUser("UPDATE")
+        setDataModalUser(user);
+        setIsShowModalUser(true);
     }
 
     return(
@@ -71,7 +81,13 @@ const Users = (pops) => {
                         </div>
                         <div className="actions">
                             <button className="btn btn-success">Refresh</button>
-                            <button className="btn btn-primary" onClick={() => setIsShowModalUser(true)}>Add new user</button>
+                            <button className="btn btn-primary" 
+                            onClick={() => {
+                                setIsShowModalUser(true);
+                                setActionModalUser("CREATE")
+                                }}>
+                                Add new user
+                            </button>
                         </div>
                     </div>
                     <div className="user-body">
@@ -92,13 +108,15 @@ const Users = (pops) => {
                                     {listUsers.map((item, index) => {
                                         return(
                                             <tr key={`row-${index}`}>
-                                                <td>{index + 1}</td>
+                                                <td>{(currentPage - 1) * currentLimit + index + 1}</td>
                                                 <td>{item.id}</td>
                                                 <td>{item.email}</td>
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
                                                 <td>
-                                                    <button className="btn btn-warning mx-3">Edit</button>
+                                                    <button className="btn btn-warning mx-3" onClick={() => handleEditUser(item)}>
+                                                        Edit
+                                                    </button>
                                                     <button className="btn btn-danger" onClick={() => handleDeleteUser(item)}>
                                                         Delete
                                                     </button>
@@ -149,9 +167,10 @@ const Users = (pops) => {
                 dataModal={dataModal}
             />
             <ModalUser 
-                title={"Create new user"}
                 onHide={onHideModalUser}
                 show={isShowModalUser}
+                action={actionModalUser}
+                dataModalUser={dataModalUser}
             />
         </>
     )
