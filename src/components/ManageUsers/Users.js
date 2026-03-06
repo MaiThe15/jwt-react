@@ -71,21 +71,32 @@ const Users = (pops) => {
         setIsShowModalUser(true);
     }
 
+    const handleRefresh = async () => {
+        await fetchUsers();
+    }
+
     return(
         <>
             <div className="container">
                 <div className="manage-users-container">
                     <div className="user-header">
-                        <div className="title">
-                            <h3>Table Users</h3>
+                        <div className="title mt-3">
+                            <h3>Manage Users</h3>
                         </div>
-                        <div className="actions">
-                            <button className="btn btn-success">Refresh</button>
+                        <div className="actions my-3">
+                            <button 
+                            className="btn btn-success refresh"
+                            onClick={() => handleRefresh()}
+                            >
+                                <i className="fa fa-refresh"></i>
+                                Refresh
+                            </button>
                             <button className="btn btn-primary" 
                             onClick={() => {
                                 setIsShowModalUser(true);
                                 setActionModalUser("CREATE")
                                 }}>
+                                <i className="fa fa-plus-circle"></i>
                                 Add new user
                             </button>
                         </div>
@@ -115,9 +126,11 @@ const Users = (pops) => {
                                                 <td>{item.Group ? item.Group.name : ''}</td>
                                                 <td>
                                                     <button className="btn btn-warning mx-3" onClick={() => handleEditUser(item)}>
+                                                        <i className="fa fa-pencil"></i>
                                                         Edit
                                                     </button>
                                                     <button className="btn btn-danger" onClick={() => handleDeleteUser(item)}>
+                                                        <i className="fa fa-trash"></i>
                                                         Delete
                                                     </button>
                                                 </td>
