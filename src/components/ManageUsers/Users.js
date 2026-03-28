@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import './Users.scss';
 import {fetchAllUser, deleteUser} from "../../services/userService";
 import ReactPaginate from "react-paginate";
@@ -26,7 +26,7 @@ const Users = (pops) => {
 
         // console.log(c);
     }, [currentPage])
-
+    
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit);
         console.log(">>> check res:", response);
