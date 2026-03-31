@@ -3,27 +3,36 @@ import Nav from './components/Navigation/Nav';
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppRoutes from './routes/AppRoutes';
+import { Audio } from 'react-loader-spinner';
+import { UserContext } from './context/UserContext';
 
 function App() {
-  const [account, setAccount] = useState({});
-  
-  useEffect(() => {
-    let session = sessionStorage.getItem('account');
-    if(session){
-      setAccount(JSON.parse(session));
-    }
-  }, []); 
-  
+  const { user } =  useContext(UserContext);
+
   return (
     <Router>
-      <div className='app-header'>
-        <Nav />
-      </div>
-      <div className='app-container'>
-        <AppRoutes />
-      </div>
+      {user && user.isLoading ? 
+        <div className='loading-container'>
+          <Audio 
+            height="100"
+            width="100"
+            color='grey'
+            ariaLabel='loading'
+          />
+          <div>Loading data ...</div>
+        </div>
+        :
+        <>
+          <div className='app-header'>
+            <Nav />
+          </div>
+          <div className='app-container'>
+            <AppRoutes />
+          </div>
+        </>
+      }
 
       <ToastContainer
         position="bottom-center"
