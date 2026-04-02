@@ -18,3 +18,25 @@
         color: white;
     }
 }
+
+.nav-header{
+    .bg-header{
+        background-color: black;
+    }
+    a, .nav-link{
+        color: white !important;
+        &:hover{
+            color: cyan !important;
+        }
+    }
+    .nav-link{
+        &.active{
+            color: cyan !important;
+        }
+    }
+    .dropdown-menu{
+        a{
+            color: black !important;
+        }
+    }
+}
