@@ -182,9 +182,9 @@ const ModalUser = (props) => {
                             </select>
                         </div>
                         <div className='col-12 col-sm-6 form-group'>
-                            <label>Group <span className='red'>*</span>:</label>
+                            <label>Group (<span className='red'>*</span>) :</label>
                             <select 
-                            className='form-select'
+                            className={validInputs.group ? 'form-select' : 'form-select is-valid'}
                             onChange={(event) => handleOnChangeInput(event.target.value, "group")}
                             value={userData.group}
                             >
